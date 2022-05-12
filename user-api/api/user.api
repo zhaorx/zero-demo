@@ -1,0 +1,46 @@
+// api语法版本
+syntax = "v1"
+
+info(
+	author: "zhaorx"
+	date:   "2022-04-01"
+	desc:   "api语法示例及语法说明"
+)
+
+type (
+	UserInfoReq {
+		UserId int64 `json:"userId"`
+	}
+
+	UserInfoResp {
+		UserId   int64  `json:"userId"`
+		Nickname string `json:"nickname"`
+	}
+)
+
+type (
+	UserUpdateReq {
+		UserId   int64  `json:"userId"`
+		Nickname string `json:"nickname"`
+	}
+
+	UserUpdateResp {
+		Flag bool `json:"flag"`
+	}
+)
+
+// service block
+@server(
+	prefix :   userapi/v1
+	group: user
+)
+
+service user-api{
+	@doc "获取用户信息"
+	@handler userInfo
+	post /user/info (UserInfoReq) returns (UserInfoResp)
+	
+	@doc "修改用户信息"
+	@handler userUpate
+	post /user/update (UserUpdateReq) returns (UserUpdateResp)
+}
